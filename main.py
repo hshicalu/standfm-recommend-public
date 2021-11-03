@@ -34,10 +34,14 @@ class Get_dataset:
     def __init__(self, url):
         self.url = url
     def _get_episodes(self):
+        # scraping
         response = requests.get(self.url)
         soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # extract title & url
         title = soup.find_all('div', class_ = "css-901oao css-cens5h r-190imx5 r-a023e6 r-1od2jal r-rjixqe")
         url = soup.find_all('a')
+        
         title_list = []
         url_list = []
         for t in title:
@@ -90,3 +94,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
