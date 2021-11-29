@@ -1,3 +1,5 @@
+import argparse
+from pprint import pprint
 import os
 import numpy as np
 import pandas as pd
@@ -12,8 +14,8 @@ import re
 
 from gensim.models import doc2vec
 
-hicalu = 'https://stand.fm/channels/5f44bb96907968e29d8f3924'
-new = "ゴッホが死後に有名になった理由と立役者"
+# hicalu = 'https://stand.fm/channels/5f44bb96907968e29d8f3924'
+# new = "ゴッホが死後に有名になった理由と立役者"
 
 tagger = MeCab.Tagger("-Owakati")
 
@@ -83,15 +85,18 @@ class Doc2Vec:
             rec_list.append(*self.episodes_master.query('index=={}'.format(r[0])).values.tolist())
         return rec_list
 
-def main():
-
-    get_data = Get_dataset(hicalu)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--url", type=str, default='https://stand.fm/channels/5f44bb96907968e29d8f3924')
+    parser.add_argument("--title", type=str, default='ゴッホが死後に有名になった理由と立役者')
+    opt = parser.parse_args()
+    pprint(opt)
+    
+    get_data = Get_dataset(opt.url)
     data = get_data._get_master()
 
-    rec_list = Doc2Vec(data, new)._recommend()
+    rec_list = Doc2Vec(data, opt.title)._recommend()
     rec_episodes = pd.DataFrame(rec_list,columns=['title','url'])
     rec_episodes.head(3).to_excel('rec_episodes.xlsx', sheet_name="rec_episodes",index=False)
 
-if __name__ == "__main__":
-    main()
 
