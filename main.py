@@ -87,11 +87,11 @@ class Doc2Vec:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--url", type=str, default='https://stand.fm/channels/5f44bb96907968e29d8f3924')
-    parser.add_argument("--title", type=str, default='ゴッホが死後に有名になった理由と立役者')
+    parser.add_argument("--url", type=str, default='https://stand.fm/channels/5f44bb96907968e29d8f3924', help="Please input your URL")
+    parser.add_argument("--title", type=str, default='ゴッホが死後に有名になった理由と立役者', help="Please input new title")
     opt = parser.parse_args()
     pprint(opt)
-    
+
     get_data = Get_dataset(opt.url)
     data = get_data._get_master()
 
